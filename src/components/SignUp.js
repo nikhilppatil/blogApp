@@ -1,105 +1,89 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import signup from '../features/createSlice'
-import { fakeUserData } from '../api'
-import DisplayUsers from '../features/DisplayUsers'
-//import DumyUsers from './DumyUsers'
-// const DumyUsers =[{name:'nikhil',dob:1-10-1999,username:'npatil'},
-// {name:'kajol',dob:12-12-2000,username:'kjadhav'},
-// {name:'paresh',dob:26-2-1996,username:'pdhande'}]
-
+import { signup } from '../features/createSlice'
 
 function SignUp() {
-
-  const [name, setName] = useState("")
-  const [dob, setDob] = useState("")
-  const [male, setMale] = useState()
-  const [female, setFemale] = useState()
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
-
-  
-
+  const [allValues, setAllValues] = useState({
+    name: '',
+    dob: '',
+    male: '',
+    female: '',
+    username: '',
+    password: '',
+  });
   const dispatch = useDispatch()
+  const [selected, setSelected] = useState('');
 
-  const handleSignUp = (e) => {
+  const changeHandler = e => {
     e.preventDefault()
+    console.log(e, "____________________-")
+    setAllValues({ ...allValues, [e.target.name]: e.target.value })
+    console.log(e.target.value);
+    setSelected(e.target.value);
 
   }
-  const signingUp = (payload) => {
-    console.log(payload);
-    dispatch(signup(payload))
+
+  const signUpBtn = () => {
+    dispatch(signup(allValues))
+
   }
-    
-   
+
   
-
+  
+ 
   return (
     <>
-     
-      <form onSubmit={handleSignUp}>
-        <input
+
+      <form>
+        <input className='name'
           type="text"
           placeholder='name'
-          value={name}
-          onChange={(e) => { setName(e.target.value) }}
+          name="name"
+          value={allValues.name}
+          onChange={changeHandler}
         /><br></br>
-        <input
+        <input className='name'
           type="date"
           placeholder='dob'
-          value={dob}
-          onChange={(e) => { setDob(e.target.value) }}
+          name="dob"
+          value={allValues.dob}
+          onChange={changeHandler}
         /><br></br>
         Male:
-        <input
+        <input className='name'
           type="radio"
-          id="m"
           name="gender"
-          value={male}
-          onChange={(e) => { setMale(e.target.value) }}
+          value="Male"
+          checked={selected === "Male"}
+          onChange={changeHandler}
         /><br></br>
-        Female:
-        <input
+        Female: 
+        <input className='name'
           type="radio"
-          id="f"
           name="gender"
-          value={female}
-          onChange={(e) => { setFemale(e.target.value) }}
+          value="Female"
+          checked={selected === "Female"}
+          onChange={changeHandler}
         /><br></br>
-        <input
+        <input className='name'
           type="username"
           placeholder='username'
-          value={username}
-          onChange={(e) => { setUsername(e.target.value) }}
+          name="username"
+          value={allValues.username}
+          onChange={changeHandler}
         /><br></br>
-        <input
+        <input className='name'
           type="password"
           placeholder='password'
-          value={password}
-          onChange={(e) => { setPassword(e.target.value) }}
+          name="password"
+          value={allValues.password}
+          onChange={changeHandler}
         /><br></br>
         <Link to="/dashboard">
-          <button type="submit" onClick={() => signingUp(fakeUserData())} >Sign Up </button><br></br></Link>
+          <button className='btn' onClick={signUpBtn}>Sign Up </button><br></br></Link>
       </form>
-      <DisplayUsers />
-
-      
     </>
   )
 }
 export default SignUp
-
-
-
-
-
-
-// const initialValue ={
-  //   name:"",
-  //   dob:"",
-  //   male:"",
-  //   female:"",
-  //   username:"",
-  //   password:"",
-  // }
